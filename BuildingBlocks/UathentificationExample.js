@@ -6,7 +6,7 @@ var sqlite3 = require("sqlite3").verbose();
 var bcrypt = require('bcrypt');
 
 
-var db = new sqlite3.Database("authentication_exercise.db");
+var db = new sqlite3.Database("db/housekeeper.db");
 var app = express();
 
 app.use(session({
@@ -80,4 +80,4 @@ app.get('/secret_page2', function(req, res) {
 
 app.listen(3000);
 
-console.log('Listening on port 3000’);
+console.log('Listening on port 3000');
