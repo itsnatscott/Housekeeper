@@ -1,30 +1,23 @@
 $(document).ready(function(){
-	console.log("views!")
-	console.log(userId)
-	currentFloors = FloorsCollection.fetch({
-		success: function() {
-			new FloorsView({collection: FloorsCollection});
-		}
-	});
-
-
-
+	console.log("this console log is in the views.js")
 	var FloorsView = Backbone.View.extend({
-		tagName: 'div class="main"',
+		el: '#main',
 		template: _.template($('#floorTemplate').html()),
+		initialize: function() {
+			this.render();
+		},
 		//put event listeners under here
 
 		//put event listeners above here
-				render: function() {
+		render: function() {
+			console.log("view");
+			console.log("view");
+			console.log(this.collection)
 			this.$el.html(this.template({
 				floor: this.model.toJSON()
 			}));
-			console.log(this.model)
+			$("body").append(this.$el)
 			return this;
 		}
-
-	// });
-	new FloorView({
-	collection: floors
-});
+	});
 });

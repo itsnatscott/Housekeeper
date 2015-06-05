@@ -1,0 +1,34 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Housekeeper</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
+	<script src="http://documentcloud.github.com/backbone/backbone-min.js"></script>
+
+	<script> var userId= <%=user%></script>
+</head>
+<body>
+	<%=user%>
+
+	<header class="menubar">
+		<img class= "logo" src="/images/logo.svg" style= "width:300px"/> <h2>Welcome To HouseKeeper </h2>
+	</header>
+	<div id="#main"></div>
+	<div class= floorBar> 	
+		<!-- Floor list template -->
+		<script type= "text/template" id="floorTemplate">
+			<span class = "floor">
+				<p>hello</p>
+				
+			</span>
+
+		</script>
+	</div>
+	<script src="/scripts/models.js"></script>
+	<script src="/scripts/collections.js"></script>
+	<script src="/scripts/views.js"></script>
+</body>
+</html>
+
+
