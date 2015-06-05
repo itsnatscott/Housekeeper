@@ -1,5 +1,11 @@
 
 console.log('housekeepers/floors');
+
+var RoomsCollection = Backbone.Collection.extend({
+	model: Room
+})
+
+
 var FloorsCollection = Backbone.Collection.extend({
 	model: Floor,
 	url: '/housekeepers/floors'

@@ -31,26 +31,35 @@ app.get('/housekeepers/login', function(req,res){
   res.sendFile('login.html', { root: __dirname });
 });
 
-//send floors json file to backbone
+//get floors based on user id
 app.get('/housekeepers/floors', function(req,res){
   console.log("trying to get floors")
   if(req.session.valid_user = true){ 
     db.all("SELECT * FROM floors WHERE user_id = ?", session.user_id, function(err,rows){
       if(err){throw err;}
-      console.log(session.user_id,rows)
+      res.json(rows)
+    });
+  }else{ res.redirect('/');
+}
+});
+//get rooms based on floor id
+app.get('/housekeepers/floors/:flId/rooms', function(req,res){
+  console.log("trying to get rooms")
+  if(req.session.valid_user = true){
+    db.all("SELECT * FROM rooms WHERE user_id = ?", req.params.flId, function(err,rows){
+      if(err){throw err;}
       res.json(rows)
       });
     }else{ res.redirect('/');
   }
 });
 
-
 //render main page after successful login
 app.get('/housekeepers',function(req,res){
   console.log(session.user_id)
   if(req.session.valid_user= true){
     ////////setting user id to 1 temporary please fix later
-res.render(__dirname + '/public/main.html',{user: userIdsrv});
+    res.render(__dirname + '/public/main.html',{user: userIdsrv});
   }else{res.redirect('/');}
 });
 
@@ -69,11 +78,11 @@ app.post('/users', function(req,res){
 			if(err) {
         throw err;
       }
-			console.log('new user, successful!');
-			req.session.valid_user = true;
+      console.log('new user, successful!');
+      req.session.valid_user = true;
       session.user_id = this.lastID
-			res.redirect('/housekeepers');
-		});
+      res.redirect('/housekeepers');
+    });
 	};
 });
 
@@ -91,7 +100,7 @@ app.post('/login', function(req, res) {
         req.user = row.username;
         session.user_id = row.id
         
-      res.redirect('/housekeepers')
+        res.redirect('/housekeepers')
       }
       else {
         res.redirect('/');

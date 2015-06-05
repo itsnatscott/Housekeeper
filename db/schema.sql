@@ -20,20 +20,20 @@ fl_name TEXT
 
 CREATE TABLE rooms(
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-floor_id INTEGER
-rm_name TEXT
-color_1	TEXT
-color_2	TEXT
-color_3 TEXT
-rm_pic TEXT
+floor_id INTEGER,
+roomname TEXT,
+color_1	TEXT,
+color_2	TEXT,
+color_3 TEXT,
+rmPic TEXT
 );
 
 CREATE TABLE todos(
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-room_id INTEGER
-item TEXT
-itm_pic TEXT
-status INTEGER
+room_id INTEGER,
+item TEXT,
+itm_pic TEXT,
+status INTEGER,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

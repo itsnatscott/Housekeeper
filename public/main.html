@@ -6,10 +6,9 @@
 	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
 	<script src="http://documentcloud.github.com/backbone/backbone-min.js"></script>
 
-	<script> var userId = 1 </script>
+	<script> var userId = <%= user %></script>
 </head>
 <body>
-	<%=user%>
 
 	<header class="menubar">
 		<img class= "logo" src="/images/logo.svg" style= "width:300px"/> <h2>Welcome To HouseKeeper </h2>
@@ -18,21 +17,16 @@
 	<button id = "floorButt"> Floors </button>
 	<div class= floorBar> 	
 		<!-- Floor list template -->
-		<script type= "text/template" id="floorTemplate">
+		<script type= "text/x-handlebars-template" id="floorTemplate">
 			<span class = "floor">
-				<p>Floor Name</p> <button>Edit</button>
-				<button>Delete</button>
+			<button class="floorButt"> {{ floor.fl_name }} </button><button id= "FlEdit{{floor.id}}">Edit</button> <button id= "FlDel{{floor.id}}">Delete</button></div>
 			</span>
 
 		</script>
 
-		<script type= "text/template" id="floorsTemplate">
-			<span class = "floor">
-				<p>FLOORS TEMPLATE</p>
-			</span>
 
-		</script>
 	</div>
+	<script src="/scripts/handlebars-v3.0.3.js"></script>
 	<script src="/scripts/models.js"></script>
 	<script src="/scripts/collections.js"></script>
 	<script src="/scripts/views.js"></script>
