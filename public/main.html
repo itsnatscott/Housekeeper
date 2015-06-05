@@ -6,7 +6,7 @@
 	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
 	<script src="http://documentcloud.github.com/backbone/backbone-min.js"></script>
 
-	<script> var userId= <%=user%></script>
+	<script> var userId = 1 </script>
 </head>
 <body>
 	<%=user%>
@@ -14,13 +14,21 @@
 	<header class="menubar">
 		<img class= "logo" src="/images/logo.svg" style= "width:300px"/> <h2>Welcome To HouseKeeper </h2>
 	</header>
-	<div id="#main"></div>
+	<div id="main"></div>
+	<button id = "floorButt"> Floors </button>
 	<div class= floorBar> 	
 		<!-- Floor list template -->
 		<script type= "text/template" id="floorTemplate">
 			<span class = "floor">
-				<p>hello</p>
-				
+				<p>Floor Name</p> <button>Edit</button>
+				<button>Delete</button>
+			</span>
+
+		</script>
+
+		<script type= "text/template" id="floorsTemplate">
+			<span class = "floor">
+				<p>FLOORS TEMPLATE</p>
 			</span>
 
 		</script>

@@ -1,16 +1,12 @@
-console.log("collections" + " " + userId)
-console.log('housekeepers/'+ userId +'/floors');
+
+console.log('housekeepers/floors');
 var FloorsCollection = Backbone.Collection.extend({
 	model: Floor,
-	initialize: function(){
-		console.log(userId);
-	},
-	url: '/housekeepers/'+ userId +'/floors'
+	url: '/housekeepers/floors'
 });
 
 var floors = new FloorsCollection();
-floors.fetch();
-
+	floors.fetch();
 
 
 

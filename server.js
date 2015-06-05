@@ -7,11 +7,13 @@ var session = require('express-session')
 var secret = require('./secret.json');
 var db = new sqlite3.Database("db/housekeeper.db")
 var app = express();
+var userIdsrv = 1
 
 ///point server to where index is
 app.use(express.static('public'));
 app.engine('html', require('ejs').renderFile);
 
+//set up sessions
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
 	secret: secret.password,
@@ -19,37 +21,41 @@ app.use(session({
 	saveUninitialized: true
 }));
 
-app.get('/housekeepers/login', function(req,res){
-  res.sendFile('login.html', { root: __dirname });
-});
-
+// redirect '/' to login page
 app.get('/', function(req,res){
 	res.redirect('/housekeepers/login');
 });
 
-app.get('/housekeepers/:userId/floors', function(req,res){
+// display login page
+app.get('/housekeepers/login', function(req,res){
+  res.sendFile('login.html', { root: __dirname });
+});
+
+//send floors json file to backbone
+app.get('/housekeepers/floors', function(req,res){
   console.log("trying to get floors")
   if(req.session.valid_user = true){ 
-    db.all("SELECT * FROM floors WHERE user_id = ?", req.params.userId, function(err,rows){
+    db.all("SELECT * FROM floors WHERE user_id = ?", session.user_id, function(err,rows){
       if(err){throw err;}
+      console.log(session.user_id,rows)
       res.json(rows)
       });
     }else{ res.redirect('/');
   }
 });
 
-app.get('/housekeepers/:id',function(req,res){
+
+//render main page after successful login
+app.get('/housekeepers',function(req,res){
+  console.log(session.user_id)
   if(req.session.valid_user= true){
-    // db.all("SELECT * FROM floors WHERE user_id = ?", session.user_id, function(err,row){
-    //   if(err){throw err}
-console.log(req.params.id)
-    // })
-res.render(__dirname + '/public/main.html',{user: req.params.id});
-  }
+    ////////setting user id to 1 temporary please fix later
+res.render(__dirname + '/public/main.html',{user: userIdsrv});
+  }else{res.redirect('/');}
 });
 
 
-
+//sign up for new user
 app.post('/users', function(req,res){
 	console.log('new user');
 	var username = req.body.username;
@@ -63,16 +69,16 @@ app.post('/users', function(req,res){
 			if(err) {
         throw err;
       }
-			console.log('here');
+			console.log('new user, successful!');
 			req.session.valid_user = true;
-//
-      // console.log(newUserId);
-			res.redirect('housekeepers/'+ this.lastID);
+      session.user_id = this.lastID
+			res.redirect('/housekeepers');
 		});
 	};
 });
 
-app.post('/housekeepers', function(req, res) {
+//login for current user
+app.post('/login', function(req, res) {
   var username = req.body.username;
   var formPassword = req.body.password;
   var password = req.body.password;
@@ -85,8 +91,7 @@ app.post('/housekeepers', function(req, res) {
         req.user = row.username;
         session.user_id = row.id
         
-      res.redirect('housekeepers/'+ row.id)
-        // res.render(__dirname + '/public/main.html',{user: session.user_id});
+      res.redirect('/housekeepers')
       }
       else {
         res.redirect('/');
