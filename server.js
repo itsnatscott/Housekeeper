@@ -8,6 +8,7 @@ var secret = require('./secret.json');
 var db = new sqlite3.Database("db/housekeeper.db")
 var app = express();
 var colourlovers = require('colourlovers');
+var request = require('request');
 var userIdsrv = 1
 
 ///point server to where index is
@@ -67,23 +68,43 @@ app.post('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
   // }else{console.log("something there")}
 
 
-    if(data[0] != undefined){
-      newPalette = data[0].colors;
-      if(newPalette[2] === null){
-        newPalette[2] = req.body.hex
-      }
-      db.run("UPDATE rooms SET color_1 = ?, color_2 = ?, color_3 = ? WHERE id = ?", newPalette[0], newPalette[1], newPalette[2], req.params.rmId, function(err){
+  if(data[0] != undefined){
+    newPalette = data[0].colors;
+    if(newPalette[2] === null){
+      newPalette[2] = req.body.hex
+    }
+    db.run("UPDATE rooms SET color_1 = ?, color_2 = ?, color_3 = ? WHERE id = ?", newPalette[0], newPalette[1], newPalette[2], req.params.rmId, function(err){
+      if(err){throw err;}
+      var id = this.lastId;
+      db.get("SELECT * FROM rooms WHERE id = ?", id, function(err,row){
+        if(err){
+          throw err;
+        }
+        res.json(row);
+      });
+    });
+
+    //plan B if the query had no response
+  }else{ 
+    console.log("plan B")
+    request('http://www.colourlovers.com/api/patterns/top?format=json', function(error, response, body) {
+      var planB = JSON.parse(body);
+      var numb = Math.floor((Math.random() * planB.length) + 1);
+      planBPalette = planB[numb].colors
+      db.run("UPDATE rooms SET color_1 = ?, color_2 = ?, color_3 = ? WHERE id = ?", planBPalette[0], planBPalette[1], planBPalette[2], req.params.rmId, function(err){
         if(err){throw err;}
         var id = this.lastId;
         db.get("SELECT * FROM rooms WHERE id = ?", id, function(err,row){
-          if(err){
+          if (err){
             throw err;
           }
-          res.json(row);
+          res.json(row)
         });
       });
-    }else{ console.log("No data available please try a different search")}
-  });
+
+    });
+  }
+});
 });
 
 //render main page after successful login
