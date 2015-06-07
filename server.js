@@ -63,7 +63,11 @@ app.post('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
   colourlovers.get('/palettes', req.body,function(err, data) {
     if(err) throw err;
     console.log(data)
-    if(data){
+  //   if(data[0] === undefined){console.log("nothing there")
+  // }else{console.log("something there")}
+
+
+    if(data[0] != undefined){
       newPalette = data[0].colors;
       if(newPalette[2] === null){
         newPalette[2] = req.body.hex
@@ -78,7 +82,7 @@ app.post('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
           res.json(row);
         });
       });
-    }else{alert("No data available please try a different search")}
+    }else{ console.log("No data available please try a different search")}
   });
 });
 

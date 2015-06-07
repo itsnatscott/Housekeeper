@@ -5,6 +5,9 @@ $(document).ready(function(){
 	var FloorView = Backbone.View.extend({
 		tagName: 'div class=floorField',
 		template: Handlebars.compile($("#floorTemplate").html()),
+		initialize: function() {
+		this.listenTo(this.model, "sync remove", this.render);
+		},
 		events:{
 			"click button.floorButt": "showRooms",
 			"click button.FlDel" : "floorDelete",
@@ -46,7 +49,7 @@ $(document).ready(function(){
 		tagName: 'div class=roomDiv',
 		template: Handlebars.compile($("#roomTemplate").html()),
 			initialize: function() {
-				this.listenTo(this.model, "sync remove", this.render);
+			this.listenTo(this.model, "sync remove", this.render);
 			},
 			events:{
 				"click button#query" : "searchColor",
@@ -86,7 +89,7 @@ $(document).ready(function(){
 	var RoomsView = Backbone.View.extend({
 		el: 'div#rooms',
 		initialize: function() {
-			this.listenTo(this.collection, "sync remove", this.render);
+		this.listenTo(this.collection, "sync remove", this.render);
 		},
 		events:{
 			"click button#rmCreate" : "createRoom",
