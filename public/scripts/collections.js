@@ -1,8 +1,8 @@
 
-console.log('housekeepers/floors');
 
 var RoomsCollection = Backbone.Collection.extend({
-	model: Room
+	model: Room,
+	url: '/housekeepers/floors/:flid/rooms'
 })
 
 

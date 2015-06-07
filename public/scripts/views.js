@@ -45,39 +45,42 @@ $(document).ready(function(){
 	var RoomView = Backbone.View.extend({
 		tagName: 'div class=roomDiv',
 		template: Handlebars.compile($("#roomTemplate").html()),
-		events:{
-			"click button#query" : "searchColor",
+			initialize: function() {
+				this.listenTo(this.model, "sync remove", this.render);
+			},
+			events:{
+				"click button#query" : "searchColor",
 
-		},
-		render: function() {
-			this.$el.html(this.template({
-				room: this.model.attributes
-			}));
-			return this;
-		},
+			},
+			render: function() {
+				this.$el.html(this.template({
+					room: this.model.attributes
+				}));
+				return this;
+			},
 
-		searchColor: function(){
-			color = $("#chosen-color"+this.model.attributes.id).val();
-			console.log(color, "this color")
-			var colorObject= {
-				hex: color,
-				numResults: 1}
+			searchColor: function(){
+				color = $("#chosen-color"+this.model.attributes.id).val();
+				console.log(color, "this color")
+				var colorObject= {
+					hex: color,
+					numResults: 1}
 
-			$.ajax({
-				type: "POST",
-				url: "/housekeepers/floors/"+this.model.attributes.floor_id+"/rooms/"+this.model.attributes.id,
-				data: JSON.stringify(colorObject),
-				contentType: "application/json",
-				dataType: "json",
-            success: function(data) {
-            	console.log(data);
-            	alert("Ajax call happened and got something back");
-            }
-        })
-		}
+					$.ajax({
+						type: "POST",
+						url: "/housekeepers/floors/"+this.model.attributes.floor_id+"/rooms/"+this.model.attributes.id,
+						data: JSON.stringify(colorObject),
+						contentType: "application/json",
+						dataType: "json",
+						success: function(data) {
+							console.log(data);
+							alert("Ajax call happened and got something back");
+						}
+					})
+				}
 
 
-    });
+			});
 
 	//shows rooms on a given floor
 	var RoomsView = Backbone.View.extend({

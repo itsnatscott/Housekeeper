@@ -57,15 +57,30 @@ app.get('/housekeepers/floors/:flId/rooms', function(req,res){
 });
 
 //get new colors for rooms from colorlovers api
+//get new colors for rooms from colorlovers api
 app.post('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
   console.log(req.body)
   colourlovers.get('/palettes', req.body,function(err, data) {
     if(err) throw err;
-    newPalette = data[0].colors;
-    db.run("INSERT INTO rooms (color_1, color_2, color_3) VALUES (?,?,?)", newPalette[0], newPalette[1], newPalette[2])
+    console.log(data)
+    if(data){
+      newPalette = data[0].colors;
+      if(newPalette[2] === null){
+        newPalette[2] = req.body.hex
+      }
+      db.run("UPDATE rooms SET color_1 = ?, color_2 = ?, color_3 = ? WHERE id = ?", newPalette[0], newPalette[1], newPalette[2], req.params.rmId, function(err){
+        if(err){throw err;}
+        var id = this.lastId;
+        db.get("SELECT * FROM rooms WHERE id = ?", id, function(err,row){
+          if(err){
+            throw err;
+          }
+          res.json(row);
+        });
+      });
+    }else{alert("No data available please try a different search")}
+  });
 });
-
-})
 
 //render main page after successful login
 app.get('/housekeepers',function(req,res){
