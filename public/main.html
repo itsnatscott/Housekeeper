@@ -2,6 +2,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Housekeeper</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
 	<script src="http://documentcloud.github.com/backbone/backbone-min.js"></script>
@@ -11,25 +12,63 @@
 <body>
 
 	<header class="menubar">
-		<img class= "logo" src="/images/logo.svg" style= "width:300px"/> <h2>Welcome To HouseKeeper </h2>
+		<div id="top_pic"></div>
+		<img class= "logo" src="/images/logo.svg" style= "width:300px"/>
+
 	</header>
 	<div id="main"></div>
-	<button id = "floorButt"> Floors </button>
-	<div class= floorBar> 	
-		<!-- Floor list template -->
-		<script type= "text/x-handlebars-template" id="floorTemplate">
-			<span class = "floor">
-			<button class="floorButt"> {{ floor.fl_name }} </button><button id= "FlEdit{{floor.id}}">Edit</button> <button id= "FlDel{{floor.id}}">Delete</button></div>
-			</span>
-
-		</script>
-
-
+	<div id= floorBar> 
+		<button id="flAdd" class="addButton">Add Floor</button>
+		<div id="flAddField" class="hidden">
+			<input type="text" id="newFlName"
+			placeholder = "Floor Name"><br>
+			<input type= "text" id="newFlPic"
+			placeholder= "picture url"><br>
+			<button id = "flCreate" class="addButton">Add Floor</button>
+		</div>
 	</div>
-	<script src="/scripts/handlebars-v3.0.3.js"></script>
-	<script src="/scripts/models.js"></script>
-	<script src="/scripts/collections.js"></script>
-	<script src="/scripts/views.js"></script>
+
+	<!-- Floor list template -->
+	<script type= "text/x-handlebars-template" id="floorTemplate">
+		<span class = "floor">
+			<button class="floorButt"> {{ floor.fl_name }} </button><br><button id= "FlEdit{{floor.id}}">Ed</button> <button class= "FlDel">Dl</button></div>
+			<p class="floorText"></p>
+		</span>
+
+	</script>
+	<div id="rooms"></div>
+
+	<script type= "text/x-handlebars-template" id="roomTemplate">
+		<div class="roomBox" id="room{{room.id}}" style='background-image: url({{room.rmPic}});;background-size: cover;'>
+			<h3 class="roomName">{{room.roomname}}</h3>
+			<div class="colorBox">
+				<div class="roomColor1" style='background-color:{{room.color_1}}'><button class="c1save hidden">save?</button></div>
+				<div class="roomColor2" style='background-color:{{room.color_2}}'><button class="c2save hidden">save?</button></div>
+				<div class="roomColor3" style='background-color:{{room.color_3}}'><button class="c3save hidden">save?</button></div>
+			</div>
+			<div class="selector" style="background-color:black">
+				<input id="background-color{{room.id}}" type="color" value="#ff0000" class="picker{{room.id}}" onchange="javascript:document.getElementById('chosen-color{{room.id}}').value = document.getElementById('background-color{{room.id}}').value;">
+
+				<input id="chosen-color{{room.id}}" class="selected"type="text" readonly="" value="#ff0000">
+
+
+				<button id="query">Palette</button>
+
+				<button id= "RmEdit{{room.id}}">Ed</button> <button class= "RmDel">Dl</button></div>
+			</div>
+
+
+
+		</div>
+	</div>
+</script>
+
+
+</div>
+<script src="/scripts/handlebars-v3.0.3.js"></script>
+<script src="/scripts/models.js"></script>
+<script src="/scripts/collections.js"></script>
+<script src="/scripts/views.js"></script>
 </body>
 </html>
 

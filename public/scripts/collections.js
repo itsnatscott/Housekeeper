@@ -12,7 +12,7 @@ var FloorsCollection = Backbone.Collection.extend({
 });
 
 var floors = new FloorsCollection();
-	floors.fetch();
+	// floors.fetch();
 
 
 

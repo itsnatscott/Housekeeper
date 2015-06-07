@@ -7,6 +7,7 @@ var session = require('express-session')
 var secret = require('./secret.json');
 var db = new sqlite3.Database("db/housekeeper.db")
 var app = express();
+var colourlovers = require('colourlovers');
 var userIdsrv = 1
 
 ///point server to where index is
@@ -15,6 +16,7 @@ app.engine('html', require('ejs').renderFile);
 
 //set up sessions
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(session({
 	secret: secret.password,
 	resave: false,
@@ -46,13 +48,24 @@ app.get('/housekeepers/floors', function(req,res){
 app.get('/housekeepers/floors/:flId/rooms', function(req,res){
   console.log("trying to get rooms")
   if(req.session.valid_user = true){
-    db.all("SELECT * FROM rooms WHERE user_id = ?", req.params.flId, function(err,rows){
+    db.all("SELECT * FROM rooms WHERE floor_id = ?", req.params.flId, function(err,rows){
       if(err){throw err;}
       res.json(rows)
-      });
-    }else{ res.redirect('/');
-  }
+    });
+  }else{ res.redirect('/');
+}
 });
+
+//get new colors for rooms from colorlovers api
+app.post('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
+  console.log(req.body)
+  colourlovers.get('/palettes', req.body,function(err, data) {
+    if(err) throw err;
+    newPalette = data[0].colors;
+    db.run("INSERT INTO rooms (color_1, color_2, color_3) VALUES (?,?,?)", newPalette[0], newPalette[1], newPalette[2])
+});
+
+})
 
 //render main page after successful login
 app.get('/housekeepers',function(req,res){
@@ -109,6 +122,56 @@ app.post('/login', function(req, res) {
       res.redirect('/');
     }
   });
+});
+
+app.post('/housekeepers/floors', function(req,res){
+  console.log("adding floor for uID:"+session.user_id)
+  if(req.session.valid_user = true) {
+    db.run("INSERT INTO floors (user_id, fl_pic, fl_name) VALUES (?,?,?)", req.body.user_id, req.body.fl_pic, req.body.fl_name, function(err){
+      if(err){
+        throw err;
+      }
+      var id = this.lastID;
+      db.get("SELECT * FROM floors WHERE id = ?", id, function(err, row){
+        if(err) {
+          throw err;
+        }
+        res.json(row);
+      });
+    });
+  } else {
+    res.redirect('/')
+  }
+});
+
+app.delete('/housekeepers/floors/:id', function(req,res){
+  console.log("deleting a floor")
+  db.get("SELECT * FROM floors WHERE id =?", req.params.id, function(err){
+    if(err){
+      throw err;
+    }
+    res.json({deleted: true});
+  });
+});
+
+app.post('/housekeepers/floors/:id/rooms', function(req,res){
+  console.log("adding room for flId:"+req.params.id)
+  if(req.session.valid_user = true) {
+    db.run("INSERT INTO rooms (floor_id, roomname, color_1, color_2, color_3, rmPic) VALUES (?,?,?,?,?,?)", req.body.floor_id, req.body.roomname, req.body.color_1, req.body.color_2, req.body.color_3, req.body.rmPic, function(err){
+      if(err){
+        throw err;
+      }
+      var id = this.lastID;
+      db.get("SELECT * FROM rooms WHERE id = ?", id, function(err, row){
+        if(err) {
+          throw err;
+        }
+        res.json(row);
+      });
+    });
+  } else {
+    res.redirect('/')
+  }
 });
 
 

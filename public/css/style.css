@@ -1,0 +1,104 @@
+*{
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+}
+body{
+  background-color: #575554;
+}
+
+.colorBox{
+	right:0%;
+	position:relative;
+	top:-15.2%;
+
+}
+
+#flAdd{
+  z-index: 12;
+}
+#floorBar{
+  position: relative;
+  top: -27%;
+  z-index: 4;
+  margin: 11;
+}
+.floorField{
+    margin: 11px;
+}
+
+#main{
+  background-color: yellow;
+  width: 8.24%;
+  position: relative;
+  top: 6%;
+  height:100%;
+}
+.hidden{
+	display:none;
+}
+
+#top_pic{
+	position:absolute;
+	width:100%;
+	height:150px;
+	z-index: -1;
+}
+#rooms{
+  display: inline-block;
+  text-align: center;
+  width: 95%;
+  position: absolute;
+  right: -2%;
+  top: 22%;
+}
+
+.roomBox{
+ 	display: inline-block;
+	width: 300px;
+	height: 250px;
+
+}
+
+.roomDiv{
+	display: inline-block;
+	width:300px;
+	margin:10px;
+}
+
+.roomColor1{
+	width:10%;
+	height:33.33333%;
+}
+.roomColor2{
+	width:10%;
+	height:33.33333%;
+}
+.roomColor3{
+	width:10%;
+	height:33.33333%;
+}
+.roomName{
+	width: 90%;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  font-size: 1.65em;
+  color: white;
+  margin: 0;
+  position: relative;
+  top: 0%;
+  text-align: -webkit-right;
+  right: -8%;
+}
+.selected{
+  width:50px;
+}
+.selector{
+	bottom: 24.4%;
+  background-color: black;
+  position: relative;
+  width: 90%;
+  right:-10%;
+}
