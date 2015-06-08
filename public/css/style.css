@@ -7,10 +7,12 @@
 }
 body{
   background-color: #575554;
+  background-image: url("../images/bkg.jpg");
+ background-blend-mode: multiply; 
 }
 .buttonOverlay{
     position: relative;
-  top: -90px;
+  top: -89.5px;
 }
 
 .rmSubBox{
@@ -18,6 +20,12 @@ body{
 	position:relative;
 	top:-12.2%%;
 
+}
+
+.fieldlabel{
+  top: 245px;
+  position: fixed;
+  right: 20%;
 }
 
 #flAdd{
@@ -35,10 +43,11 @@ body{
 
 #main{
   background-color: yellow;
-  width: 8.24%;
-  position: relative;
-  top: 6%;
-  height:100%;
+  width: 116;
+  position: fixed;
+  top: 298px;
+  height: 100%;
+  left: 0%;
 }
 .hidden{
 	display:none;
@@ -46,12 +55,21 @@ body{
 .hiddenEdit{
   visibility: hidden;
 }
+#logout{
+  position: fixed;
+  top: 4%;
+  right: 4%;
+}
+
+.menubar{
+  position:fixed;
+}
 
 #paintstripe{
-  width: 100%;
+  width: 1613px;
   position: absolute;
   top: 175px;
-  right: 3%;
+  right: -507px;
 }
 
 #top_pic{
@@ -64,9 +82,10 @@ body{
   display: inline-block;
   text-align: center;
   width: 95%;
-  position: absolute;
+  position: fixed;
   right: -2%;
-  top: 22%;
+  top: 300px;
+  overflow-y: scroll;
 }
 
 .roomBox{

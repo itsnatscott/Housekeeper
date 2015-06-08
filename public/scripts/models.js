@@ -15,7 +15,7 @@ var RoomsCollection = Backbone.Collection.extend({
 var Floor = Backbone.Model.extend({
 	urlRoot: 'housekeepers/floors',
 	initialize: function(){
-		console.log('floor init');
+		console.log("floor_model "+this.id);
 		this.rooms = new RoomsCollection();
 		this.rooms.url = 'housekeepers/floors/'+ this.id +'/rooms'
 	}

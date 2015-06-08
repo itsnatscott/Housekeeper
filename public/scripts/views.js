@@ -1,5 +1,6 @@
 $(document).ready(function(){
-	var floor_pics = [];	
+	var floor_pics = [];
+	var user= userId	
 
 
 	var FloorView = Backbone.View.extend({
@@ -90,7 +91,7 @@ $(document).ready(function(){
 				hex: color,
 				numResults: 1}
 
-			var promise = $.ajax({
+				var promise = $.ajax({
 					type: "POST",
 					url: "/housekeepers/floors/"+this.model.attributes.floor_id+"/rooms/"+this.model.attributes.id,
 					data: JSON.stringify(colorObject),
@@ -119,7 +120,7 @@ $(document).ready(function(){
 		render: function(){ 
 			var spaces = this.$el;
 			spaces.html("");
-			spaces.append("<div class='newRoomFields'><div class = 'fieldlabel'>add new room<input type='text' id='newRmName' placeholder = 'room name'><input type='text' id='newRmPic' placeholder = 'picture url'><button class='addButton' id='rmCreate'>Add Room</button></div></div>")
+			spaces.prepend("<div class='newRoomFields'><div class = 'fieldlabel'><input type='text' id='newRmName' placeholder = 'room name'><input type='text' id='newRmPic' placeholder = 'picture url'><button class='addButton' id='rmCreate'>Add Room</button></div></div>")
 			this.collection.each(function(space){
 				spaces.append(new RoomView({
 					model: space

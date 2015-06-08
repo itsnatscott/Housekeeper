@@ -12,7 +12,7 @@
 <body>
 
 	<header class="menubar">
-		<div id="top_pic"></div>
+		<a id="logout" href="/housekeepers/logout/<%=user%>">logout</a>
 		<img class= "logo" src="/images/logo2.svg"/>
 		<img id= "paintStripe" src="/images/stripe.svg "/>
 
@@ -32,7 +32,7 @@
 		<!-- Floor list template -->
 		<script type= "text/x-handlebars-template" id="floorTemplate">
 			<span class = "floor">
-				<button class="floorButt"> {{ floor.fl_name }} </button><br><button id= "FlEdit{{floor.id}}">Ed</button> <button class= "FlDel">Dl</button></div>
+				<button class="floorButt"> {{ floor.fl_name }} </button><br> <button class= "FlDel">Dl</button></div>
 				<p class="floorText"></p>
 			</span>
 
@@ -49,7 +49,7 @@
 
 						<div id="rmEditField{{room.id}}" class="hiddenEdit shownEdit">
 						<input class="roomEdit" id="roomName{{room.id}}" style="background-color: rgba(133,133,133,.5)" placeholder="room name"type"text">
-						<input class="roomEdit" id="roompic{{room.id}}" style="background-color: rgba(133,133,133,.5)" placeholder="picture url"type"text">
+						<input class="roomEdit" id="roomPic{{room.id}}" style="background-color: rgba(133,133,133,.5)" placeholder="picture url"type"text">
 						<button class="rmUpdate"> Update </button>
 						</div>
 

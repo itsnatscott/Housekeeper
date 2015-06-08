@@ -9,7 +9,7 @@ var db = new sqlite3.Database("db/housekeeper.db")
 var app = express();
 var colourlovers = require('colourlovers');
 var request = require('request');
-var userIdsrv = 1
+// var userIdsrv = 1
 
 ///point server to where index is
 app.use(express.static('public'));
@@ -70,7 +70,7 @@ app.post('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
     newPalette = data[0].colors;
     if(newPalette[2] === null){
       newPalette[2] = req.body.hex
-    }
+    } console.log("plan A")
     db.run("UPDATE rooms SET color_1 = ?, color_2 = ?, color_3 = ? WHERE id = ?", newPalette[0], newPalette[1], newPalette[2], req.params.rmId, function(err){
       if(err){throw err;}
       var id = req.params.rmId;
@@ -109,8 +109,8 @@ app.post('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
 app.get('/housekeepers',function(req,res){
   console.log(session.user_id)
   if(req.session.valid_user= true){
-    ////////setting user id to 1 temporary please fix later
-    res.render(__dirname + '/public/main.html',{user: userIdsrv});
+    ////////setting user id to 1 temporary 
+    res.render(__dirname + '/public/main.html',{user: session.user_id});
   }else{res.redirect('/');}
 });
 
@@ -241,6 +241,12 @@ app.delete('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
     res.json({deleted: true});
   });
 });
+
+app.get('/housekeepers/logout/:id', function(req,res){
+  console.log(session.user_id +" has logged out")
+  req.session.destroy();
+  res.redirect('/');
+})
 
 
 
