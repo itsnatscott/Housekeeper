@@ -6,7 +6,7 @@ $(document).ready(function(){
 		tagName: 'div class=floorField',
 		template: Handlebars.compile($("#floorTemplate").html()),
 		initialize: function() {
-		this.listenTo(this.model, "sync remove", this.render);
+			this.listenTo(this.model, "sync remove", this.render);
 		},
 		events:{
 			"click button.floorButt": "showRooms",
@@ -21,20 +21,17 @@ $(document).ready(function(){
 		},
 
 		floorDelete: function(){
-			console.log("i'm gonna delete this floor:"+ this.model.id)
 			this.model.destroy();
 		},
 
 		showRooms: function(){
 			var rooms = this.model.rooms;
 			var flId = this.model.attributes.id
-			console.log(this.model.attributes.id)
 			currentUser = this.model.attributes.username;
 			rooms.fetch({
 				success: function(){
-					$("#top_pic").css('background-image', 'url(' + floor_pics[flId-1] + ')');
+					// $("#top_pic").css('background-image', 'url(' + floor_pics[flId-1] + ')');
 					new RoomsView({ collection: rooms})
-					console.log("asking for new RoomsView?")
 				},
 				error: function(){
 					console.log("error, no rooms!")
@@ -48,48 +45,56 @@ $(document).ready(function(){
 	var RoomView = Backbone.View.extend({
 		tagName: 'div class=roomDiv',
 		template: Handlebars.compile($("#roomTemplate").html()),
-			initialize: function() {
+		initialize: function() {
 			this.listenTo(this.model, "sync remove", this.render);
-			},
-			events:{
-				"click button#query" : "searchColor",
+		},
+		events:{
+			"click .query" : "searchColor",
 
-			},
-			render: function() {
-				this.$el.html(this.template({
-					room: this.model.attributes
-				}));
-				return this;
-			},
+		},
+		render: function() {
+			this.$el.html(this.template({
+				room: this.model.attributes
+			}));
+			return this;
+		},
 
-			searchColor: function(){
-				color = $("#chosen-color"+this.model.attributes.id).val();
-				console.log(color, "this color")
-				var colorObject= {
-					hex: color,
-					numResults: 1}
-
-					$.ajax({
-						type: "POST",
-						url: "/housekeepers/floors/"+this.model.attributes.floor_id+"/rooms/"+this.model.attributes.id,
-						data: JSON.stringify(colorObject),
-						contentType: "application/json",
-						dataType: "json",
-						success: function(data) {
-							console.log(data);
-							alert("Ajax call happened and got something back");
-						}
-					})
-				}
+		searchColor: function(e){
+			console.log(e.target)
+			var color = $("#chosen-color"+this.model.attributes.id).val();
+			var newPalette={}
+			var colorObject= {
+				hex: color,
+				numResults: 1}
 
 
-			});
+				
+
+
+
+				var promise = $.ajax({
+					type: "POST",
+					url: "/housekeepers/floors/"+this.model.attributes.floor_id+"/rooms/"+this.model.attributes.id,
+					data: JSON.stringify(colorObject),
+					contentType: "application/json",
+					dataType: "json",
+					success: function(data) {
+						$("#"+data.id+"rmCl1").css('background-color', data.color_1);
+						$("#"+data.id+"rmCl2").css('background-color', data.color_2);
+						$("#"+data.id+"rmCl3").css('background-color', data.color_3);
+
+					
+
+					}
+				});
+			}
+		});
 
 	//shows rooms on a given floor
 	var RoomsView = Backbone.View.extend({
 		el: 'div#rooms',
 		initialize: function() {
-		this.listenTo(this.collection, "sync remove", this.render);
+			this.listenTo(this.collection, "sync remove", this.render);
 		},
 		events:{
 			"click button#rmCreate" : "createRoom",
@@ -140,7 +145,6 @@ var FloorsView = Backbone.View.extend({
 		render: function() {
 			var levels = this.$el;
 			levels.html("");
-			console.log(this.collection.toJSON())
 			this.collection.each(function(level){
 				levels.append(new FloorView({
 					model: level,
@@ -161,14 +165,11 @@ var CreateFloorView = Backbone.View.extend({
 },
 	//creates new floor
 	createFloor: function(){
-		console.log(this.collection)
 		var flPic = this.$("#newFlPic").val();
 		var flName = this.$("#newFlName").val();
-		console.log(flPic, flName, userId);
 		var nwFl = new Floor({ user_id: userId, fl_pic: flPic, fl_name: flName});
 		this.collection.add(nwFl);
 		nwFl.save(null);
-		console.log(floors)
 		$("#flAddField").toggleClass("hidden");
 		$("button#flAdd").toggleClass("hidden");
 	}

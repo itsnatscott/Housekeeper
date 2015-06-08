@@ -15,7 +15,8 @@ var floors = new FloorsCollection();
 	// floors.fetch();
 
 
-
+var rooms = new RoomsCollection();
+rooms.fetch();
 
 
 // var RoomsCollection = Backbone.Collection.extend({
