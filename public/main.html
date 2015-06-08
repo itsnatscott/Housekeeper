@@ -14,54 +14,60 @@
 	<header class="menubar">
 		<div id="top_pic"></div>
 		<img class= "logo" src="/images/logo2.svg"/>
+		<img id= "paintStripe" src="/images/stripe.svg "/>
 
-	</header>
-	<div id="main"></div>
-	<div id= floorBar> 
-		<button id="flAdd" class="addButton">Add Floor</button>
-		<div id="flAddField" class="hidden">
-			<input type="text" id="newFlName"
-			placeholder = "Floor Name"><br>
-			<input type= "text" id="newFlPic"
-			placeholder= "picture url"><br>
-			<button id = "flCreate" class="addButton">Add Floor</button>
+		</header>
+		<div id="main"></div>
+		<div id= floorBar> 
+			<button id="flAdd" class="addButton">Add Floor</button>
+			<div id="flAddField" class="hidden">
+				<input type="text" id="newFlName"
+				placeholder = "Floor Name" maxlength="14"><br>
+				<input type= "text" id="newFlPic"
+				placeholder= "picture url"><br>
+				<button id = "flCreate" class="addButton">Add Floor</button>
+			</div>
 		</div>
-	</div>
 
-	<!-- Floor list template -->
-	<script type= "text/x-handlebars-template" id="floorTemplate">
-		<span class = "floor">
-			<button class="floorButt"> {{ floor.fl_name }} </button><br><button id= "FlEdit{{floor.id}}">Ed</button> <button class= "FlDel">Dl</button></div>
-			<p class="floorText"></p>
-		</span>
+		<!-- Floor list template -->
+		<script type= "text/x-handlebars-template" id="floorTemplate">
+			<span class = "floor">
+				<button class="floorButt"> {{ floor.fl_name }} </button><br><button id= "FlEdit{{floor.id}}">Ed</button> <button class= "FlDel">Dl</button></div>
+				<p class="floorText"></p>
+			</span>
 
+		</script>
+		<div id="rooms"></div>
+
+		<script type= "text/x-handlebars-template" id="roomTemplate">
+
+			<div class="roomBox" id="room{{room.id}}" style='background-image: url({{room.rmPic}});;background-size: cover;'>
+
+				<div class="rmSubBox">
+					<h3 class="roomName">{{room.roomname}}</h3>
+
+
+						<div id="rmEditField{{room.id}}" class="hiddenEdit shownEdit">
+						<input class="roomEdit" id="roomName{{room.id}}" style="background-color: rgba(133,133,133,.5)" placeholder="room name"type"text">
+						<input class="roomEdit" id="roompic{{room.id}}" style="background-color: rgba(133,133,133,.5)" placeholder="picture url"type"text">
+						<button class="rmUpdate"> Update </button>
+						</div>
+
+					<div class="buttonOverlay">
+					<div id="{{room.id}}rmCl1"class="roomColor1" style='background-color:{{room.color_1}}'></div>
+					<div id="{{room.id}}rmCl2"class="roomColor2" style='background-color:{{room.color_2}}'></div>
+					<div id="{{room.id}}rmCl3"class="roomColor3" style='background-color:{{room.color_3}}'></div>
+					<div class="selector" style="background-color:black">
+						<input id="background-color{{room.id}}" type="color" value="#{{room.color_1}}" class="picker{{room.id}}" onchange="javascript:document.getElementById('chosen-color{{room.id}}').value = document.getElementById('background-color{{room.id}}').value;">
+
+						<input id="chosen-color{{room.id}}" class="selected hidden"type="text" readonly="" value="#{{room.color_1}}">
+						<button class="query" id="{{room.floor_id}}">Palette</button>
+						<button class= "rmEdit">Ed</button> <button class= "rmDel">Dl</button>
+					</div>
+						</div>
+					</div>
+				</div>
 	</script>
-	<div id="rooms"></div>
-
-	<script type= "text/x-handlebars-template" id="roomTemplate">
-		<div class="roomBox" id="room{{room.id}}" style='background-image: url({{room.rmPic}});;background-size: cover;'>
-			<h3 class="roomName">{{room.roomname}}</h3>
-			<div class="colorBox">
-				<div id="{{room.id}}rmCl1"class="roomColor1" style='background-color:{{room.color_1}}'><button class="c1save hidden">save?</button></div>
-				<div id="{{room.id}}rmCl2"class="roomColor2" style='background-color:{{room.color_2}}'><button class="c2save hidden">save?</button></div>
-				<div id="{{room.id}}rmCl3"class="roomColor3" style='background-color:{{room.color_3}}'><button class="c3save hidden">save?</button></div>
-			</div>
-			<div class="selector" style="background-color:black">
-				<input id="background-color{{room.id}}" type="color" value="#ff0000" class="picker{{room.id}}" onchange="javascript:document.getElementById('chosen-color{{room.id}}').value = document.getElementById('background-color{{room.id}}').value;">
-
-				<input id="chosen-color{{room.id}}" class="selected"type="text" readonly="" value="#ff0000">
-
-
-				<button class="query" id="{{room.floor_id}}">Palette</button>
-
-				<button id= "RmEdit{{room.id}}">Ed</button> <button class= "RmDel">Dl</button></div>
-			</div>
-
-
-
-		</div>
-	</div>
-</script>
 
 
 </div>

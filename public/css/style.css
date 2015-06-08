@@ -8,8 +8,12 @@
 body{
   background-color: #575554;
 }
+.buttonOverlay{
+    position: relative;
+  top: -90px;
+}
 
-.colorBox{
+.rmSubBox{
 	right:0%;
 	position:relative;
 	top:-12.2%%;
@@ -39,6 +43,16 @@ body{
 .hidden{
 	display:none;
 }
+.hiddenEdit{
+  visibility: hidden;
+}
+
+#paintstripe{
+  width: 100%;
+  position: absolute;
+  top: 175px;
+  right: 3%;
+}
 
 #top_pic{
 	position:absolute;
@@ -65,7 +79,7 @@ body{
 .roomDiv{
 	display: inline-block;
 	width:300px;
-	margin:10px;
+	margin: 20px 10px 10px 10px;
 }
 
 .roomColor1{
@@ -80,6 +94,17 @@ body{
 	width:10%;
 	height:33.33333%;
 }
+.roomEdit{
+  width: 90%;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  font-size: 1.65em;
+  color: white;
+  margin: 0;
+  top: 0%;
+  text-align: -webkit-right;
+  right: -8%;
+}
 .roomName{
 	width: 90%;
   font-family: sans-serif;
@@ -88,9 +113,19 @@ body{
   color: white;
   margin: 0;
   position: relative;
-  top: 0%;
+  top: 31px;
   text-align: -webkit-right;
   right: -8%;
+}
+.shown{
+  display:block;
+}
+
+.shownEdit{
+  position: relative;
+  top: 30px;
+  right: -14px;
+  z-index: 100
 }
 .selected{
   width:50px;
@@ -101,4 +136,5 @@ body{
   position: relative;
   width: 90%;
   right:-10%;
+  top:-23px;
 }

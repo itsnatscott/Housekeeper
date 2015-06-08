@@ -50,6 +50,9 @@ $(document).ready(function(){
 		},
 		events:{
 			"click .query" : "searchColor",
+			"click button.rmDel" : "roomDelete",
+			"click button.rmEdit" : "roomEdit",
+			"click button.rmUpdate" : "updateRoom"
 
 		},
 		render: function() {
@@ -57,6 +60,26 @@ $(document).ready(function(){
 				room: this.model.attributes
 			}));
 			return this;
+		},
+		roomEdit: function(){
+			this.$("#rmEditField"+this.model.attributes.id).toggleClass("hiddenEdit");
+		},
+
+		updateRoom: function(){
+			console.log("roomUpdate")
+			var newName = this.$("#roomName"+this.model.attributes.id).val();
+			var newPic = this.$("#roomPic"+this.model.attributes.id).val();
+			console.log(this.model,newPic,newName)
+			this.model.set({
+				roomname: newName,
+				rmPic: newPic
+			});
+			this.model.save();
+			this.$("#rmEditField"+this.model.attributes.id).toggleClass("hiddenEdit");
+		},
+
+		roomDelete: function(){
+			this.model.destroy();
 		},
 
 		searchColor: function(e){
@@ -67,12 +90,7 @@ $(document).ready(function(){
 				hex: color,
 				numResults: 1}
 
-
-				
-
-
-
-				var promise = $.ajax({
+			var promise = $.ajax({
 					type: "POST",
 					url: "/housekeepers/floors/"+this.model.attributes.floor_id+"/rooms/"+this.model.attributes.id,
 					data: JSON.stringify(colorObject),
@@ -82,9 +100,6 @@ $(document).ready(function(){
 						$("#"+data.id+"rmCl1").css('background-color', data.color_1);
 						$("#"+data.id+"rmCl2").css('background-color', data.color_2);
 						$("#"+data.id+"rmCl3").css('background-color', data.color_3);
-
-					
-
 					}
 				});
 			}

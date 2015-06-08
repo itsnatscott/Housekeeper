@@ -60,10 +60,8 @@ app.get('/housekeepers/floors/:flId/rooms', function(req,res){
 //get new colors for rooms from colorlovers api
 //get new colors for rooms from colorlovers api
 app.post('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
-  console.log("line 63 "+req.body)
   colourlovers.get('/palettes', req.body,function(err, data) {
     if(err) throw err;
-    console.log("line 66 "+data)
   //   if(data[0] === undefined){console.log("nothing there")
   // }else{console.log("something there")}
 
@@ -81,7 +79,6 @@ app.post('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
           throw err;
         }
         res.json(row);
-        console.log("line 84 "+row)
       });
     });
 
@@ -91,8 +88,6 @@ app.post('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
     request('http://www.colourlovers.com/api/patterns/top?format=json', function(error, response, body) {
       var planB = JSON.parse(body);
       var numb = Math.floor((Math.random() * planB.length) + 1);
-      console.log(numb);
-      console.log(planB[numb]);
       planBPalette = planB[numb].colors
       db.run("UPDATE rooms SET color_1 = ?, color_2 = ?, color_3 = ? WHERE id = ?", planBPalette[0], planBPalette[1], planBPalette[2], req.params.rmId, function(err){
         if(err){throw err;}
@@ -189,7 +184,7 @@ app.post('/housekeepers/floors', function(req,res){
 
 app.delete('/housekeepers/floors/:id', function(req,res){
   console.log("deleting a floor")
-  db.get("SELECT * FROM floors WHERE id =?", req.params.id, function(err){
+  db.get("DELETE FROM floors WHERE id =?", req.params.id, function(err){
     if(err){
       throw err;
     }
@@ -197,6 +192,8 @@ app.delete('/housekeepers/floors/:id', function(req,res){
   });
 });
 
+
+//adds new room to a floor
 app.post('/housekeepers/floors/:id/rooms', function(req,res){
   console.log("adding room for flId:"+req.params.id)
   if(req.session.valid_user = true) {
@@ -215,6 +212,34 @@ app.post('/housekeepers/floors/:id/rooms', function(req,res){
   } else {
     res.redirect('/')
   }
+});
+
+app.put('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
+  console.log (req.body,req.params.rmId, req.params)
+  var id = req.params.rmId;
+
+  db.run("UPDATE rooms SET roomname = ?, rmPic = ? WHERE id = ?", req.body.roomname, req.body.rmPic,id, function(err){
+    if(err){
+      throw err;
+    }
+    db.get("SELECT * FROM rooms WHERE id = ?", id, function(err,row){
+      if(err) {
+        throw err;
+      }
+      res.json(row)
+    });
+  });
+});
+
+//deletes a room from a floor
+app.delete('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
+  console.log(req.params.rmId)
+  db.get("DELETE FROM rooms WHERE id =?", req.params.rmId, function(err){
+    if(err){
+      throw err;
+    }
+    res.json({deleted: true});
+  });
 });
 
 
