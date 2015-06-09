@@ -1,17 +1,64 @@
 <!DOCTYPE>
+<head>
+
+
+
+  
+  
+  </head>
 <html>
-  <body>
-  login right here
+  <body class="roomEdit"style="background-image:url(/images/login.jpg);background-size: cover;width: 100%;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  font-size: 1.65em;
+  color: white;">
+  <!-- <marquee> -->
+  <div id="signIn">
+  sign in right here
     <form action = "/login" method = "POST">
-     <input type = "text" name = "username">
-      <input type = "text" name = "password">
-      <button>submit</button>
+     <input style="font-family: sans-serif;
+      text-transform: uppercase;
+      font-size: 1.65em;
+      color: white;background-color: rgba(133,133,133,.5);  border: none;
+};
+"type = "text" name = "username" placeholder="username"><br>
+      <input style="font-family: sans-serif;
+      text-transform: uppercase;
+      font-size: 1.65em;
+      color: white;background-color: rgba(133,133,133,.5);border: none;"class="roomEdit"type = "password" name = "password" placeholder="password"><br>
+
+      <button style="  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  background: #ffff00;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;border:none; position:relative; right:-358px">submit</button>
       </form></br>
-    sign up here
+      </div>
+  <!--   </marquee> -->
+      <div id="signUp" style="position:absolute;bottom:0%; right:0%; text-align: -webkit-right;">
+    sign up over here
         <form action = "/users" method = "POST">
-      <input type = "text" name = "username">
-      <input type = "text" name = "password">
-      <input type = "text" name = "confirm_password">
-      <button>submit</button>
+      <input style="font-family: sans-serif;
+      text-transform: uppercase;
+      font-size: 1.65em;
+      color: white;background-color: rgba(133,133,133,.5);border: none;  text-align: -webkit-right;"class="roomEdit"type = "text" name = "username" placeholder="username"><br>
+      <input style="font-family: sans-serif;
+      text-transform: uppercase;
+      font-size: 1.65em;
+      color: white;background-color: rgba(133,133,133,.5);border: none;  text-align: -webkit-right;"class="roomEdit"type = "password" name = "password" placeholder="password"><br>
+      <input style="font-family: sans-serif;
+      text-transform: uppercase;
+      font-size: 1.65em;
+      color: white;background-color: rgba(133,133,133,.5);border: none;  text-align: -webkit-right;"class="roomEdit"type = "password" name = "confirm_password"placeholder="confirm"><br>
+      <button style="  font-family: Arial;
+      position:relative; right:357px;
+  color: #ffffff;
+  font-size: 20px;
+  background: #ffff00;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;border:none;">submit</button>
+    </form>
+  </div>
   </body>
 </html>

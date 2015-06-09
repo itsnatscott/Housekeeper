@@ -24,6 +24,19 @@ app.use(session({
 	saveUninitialized: true
 }));
 
+
+// for(var i=39; i<99; i++){
+//   db.get("DELETE FROM rooms WHERE id =?", i, function(err){
+//     if(err){
+//       throw err;
+//     }
+//   });
+// }
+
+
+
+
+
 // redirect '/' to login page
 app.get('/', function(req,res){
 	res.redirect('/housekeepers/login');
@@ -68,6 +81,7 @@ app.post('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
 
   if(data[0] != undefined){
     newPalette = data[0].colors;
+    console.log(newPalette)
     if(newPalette[2] === null){
       newPalette[2] = req.body.hex
     } console.log("plan A")
@@ -89,6 +103,7 @@ app.post('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
       var planB = JSON.parse(body);
       var numb = Math.floor((Math.random() * planB.length) + 1);
       planBPalette = planB[numb].colors
+      console.log(planBPalette)
       db.run("UPDATE rooms SET color_1 = ?, color_2 = ?, color_3 = ? WHERE id = ?", planBPalette[0], planBPalette[1], planBPalette[2], req.params.rmId, function(err){
         if(err){throw err;}
         var id = req.params.rmId;
@@ -196,8 +211,8 @@ app.delete('/housekeepers/floors/:id', function(req,res){
 //adds new room to a floor
 app.post('/housekeepers/floors/:id/rooms', function(req,res){
   console.log("adding room for flId:"+req.params.id)
-  if(req.session.valid_user = true) {
-    db.run("INSERT INTO rooms (floor_id, roomname, color_1, color_2, color_3, rmPic) VALUES (?,?,?,?,?,?)", req.body.floor_id, req.body.roomname, req.body.color_1, req.body.color_2, req.body.color_3, req.body.rmPic, function(err){
+  if(req.session.valid_user == true) {
+    db.run("INSERT INTO rooms (floor_id, roomname, color_1, color_2, color_3, rmPic) VALUES (?,?,?,?,?,?)", req.params.id, req.body.roomname, req.body.color_1, req.body.color_2, req.body.color_3, req.body.rmPic, function(err){
       if(err){
         throw err;
       }

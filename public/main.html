@@ -15,25 +15,33 @@
 		<a id="logout" href="/housekeepers/logout/<%=user%>">logout</a>
 		<img class= "logo" src="/images/logo2.svg"/>
 		<img id= "paintStripe" src="/images/stripe.svg "/>
-
 		</header>
+
+
+
 		<div id="main"></div>
-		<div id= floorBar> 
-			<button id="flAdd" class="addButton">Add Floor</button>
+			<div id= "floorBar"> 
+			<button id="flAdd" class="floorbutt">Add Floor</button>
 			<div id="flAddField" class="hidden">
+			<button id = "flCreate" class="floorbutt" style="background: #0080FF;">Add Floor</button>
 				<input type="text" id="newFlName"
-				placeholder = "Floor Name" maxlength="14"><br>
+				placeholder = "Floor Name" maxlength="14" required><br>
 				<input type= "text" id="newFlPic"
-				placeholder= "picture url"><br>
-				<button id = "flCreate" class="addButton">Add Floor</button>
+				placeholder= "picture url" style="display:none"><br>
+				
 			</div>
 		</div>
+
 
 		<!-- Floor list template -->
 		<script type= "text/x-handlebars-template" id="floorTemplate">
 			<span class = "floor">
-				<button class="floorButt"> {{ floor.fl_name }} </button><br> <button class= "FlDel">Dl</button></div>
-				<p class="floorText"></p>
+				<button class="floorButt"> {{ floor.fl_name }} </button><br> <button class= "FlDel">Dl</button>
+				<button class='fldCreate'id="fldCreate{{floor.id}}">Add Room</button></div>
+				<div id="addrmField{{floor.id}}" class="hidden">
+				<button id='rmCreate' class="roomCreate">Add Room</button>
+				<input type='text' id='newRmName{{floor.id}}' placeholder = 'room name'><input type='text' id='newRmPic{{floor.id}}' placeholder = 'picture url'>
+				</div>
 			</span>
 
 		</script>
@@ -54,13 +62,13 @@
 						</div>
 
 					<div class="buttonOverlay">
-					<div id="{{room.id}}rmCl1"class="roomColor1" style='background-color:{{room.color_1}}'></div>
-					<div id="{{room.id}}rmCl2"class="roomColor2" style='background-color:{{room.color_2}}'></div>
-					<div id="{{room.id}}rmCl3"class="roomColor3" style='background-color:{{room.color_3}}'></div>
+					<div id="{{room.id}}rmCl1"class="roomColor1" style='background-color:#{{room.color_1}}'></div>
+					<div id="{{room.id}}rmCl2"class="roomColor2" style='background-color:#{{room.color_2}}'></div>
+					<div id="{{room.id}}rmCl3"class="roomColor3" style='background-color:#{{room.color_3}}'></div>
 					<div class="selector" style="background-color:black">
 						<input id="background-color{{room.id}}" type="color" value="#{{room.color_1}}" class="picker{{room.id}}" onchange="javascript:document.getElementById('chosen-color{{room.id}}').value = document.getElementById('background-color{{room.id}}').value;">
 
-						<input id="chosen-color{{room.id}}" class="selected hidden"type="text" readonly="" value="#{{room.color_1}}">
+						<input id="chosen-color{{room.id}}" class="selected hidden"type="text" readonly="" value="{{room.color_1}}">
 						<button class="query" id="{{room.floor_id}}">Palette</button>
 						<button class= "rmEdit">Ed</button> <button class= "rmDel">Dl</button>
 					</div>
@@ -69,7 +77,7 @@
 				</div>
 	</script>
 
-
+	</body>
 </div>
 <script src="/scripts/handlebars-v3.0.3.js"></script>
 <script src="/scripts/models.js"></script>

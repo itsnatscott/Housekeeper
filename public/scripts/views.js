@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	var floor_pics = [];
 	var user= userId	
+	var clicks =0
 
 
 	var FloorView = Backbone.View.extend({
@@ -12,7 +13,8 @@ $(document).ready(function(){
 		events:{
 			"click button.floorButt": "showRooms",
 			"click button.FlDel" : "floorDelete",
-			"click button.rmCreate": "createRoom"
+			"click button#rmCreate" : "createRoom",
+			"click button.fldCreate" : "showFields"
 		},
 		render: function(){
 			floor_pics.push(this.model.attributes.fl_pic)
@@ -26,8 +28,9 @@ $(document).ready(function(){
 		},
 
 		showRooms: function(){
+			console.log(this.model.attributes.id)
 			var rooms = this.model.rooms;
-			var flId = this.model.attributes.id
+			var flId = this.model.attributes.id;
 			currentUser = this.model.attributes.username;
 			rooms.fetch({
 				success: function(){
@@ -38,6 +41,31 @@ $(document).ready(function(){
 					console.log("error, no rooms!")
 				}
 			});
+		},
+
+			showFields: function(){
+			$("#addrmField"+this.model.id).toggleClass("hidden")
+			$("#fldCreate"+this.model.id).toggleClass("hidden")
+			},
+
+			createRoom: function(){
+			console.log(this.model.collection)
+			var rmPic = this.$("#newRmPic"+this.model.id).val();
+			var rmName = this.$("#newRmName"+this.model.id).val();
+			console.log(rmPic, rmName, this.model.id);
+			var nwRm = new Room ({ 
+				floor_id: this.model.id, 
+				roomname: rmName, 
+				color_1: "DDDDDD", 
+				color_2: "A8A8A8", 
+				color_3: "858685",
+				rmPic: rmPic});
+			debugger
+			this.model.rooms.add(nwRm)
+			nwRm.save()
+			$("#addrmField"+this.model.id).toggleClass("hidden")
+			$("#fldCreate"+this.model.id).toggleClass("hidden")
+			console.log(nwRm)
 		}
 
 });//closes floorView
@@ -46,9 +74,9 @@ $(document).ready(function(){
 	var RoomView = Backbone.View.extend({
 		tagName: 'div class=roomDiv',
 		template: Handlebars.compile($("#roomTemplate").html()),
-		initialize: function() {
-			this.listenTo(this.model, "sync remove", this.render);
-		},
+		// initialize: function() {
+		// 	this.listenTo(this.model, "sync remove", this.render);
+		// },
 		events:{
 			"click .query" : "searchColor",
 			"click button.rmDel" : "roomDelete",
@@ -113,38 +141,19 @@ $(document).ready(function(){
 			this.listenTo(this.collection, "sync remove", this.render);
 		},
 		events:{
-			"click button#rmCreate" : "createRoom",
 			"click button#chosen-color" : "searchColor",
 
 		},
 		render: function(){ 
 			var spaces = this.$el;
 			spaces.html("");
-			spaces.prepend("<div class='newRoomFields'><div class = 'fieldlabel'><input type='text' id='newRmName' placeholder = 'room name'><input type='text' id='newRmPic' placeholder = 'picture url'><button class='addButton' id='rmCreate'>Add Room</button></div></div>")
+			// spaces.append("<div class='newRoomFields'><input type='text' id='newRmName' placeholder = 'room name'><input type='text' id='newRmPic' placeholder = 'picture url'><button id='rmCreate'>Add Room</button></div>")
 			this.collection.each(function(space){
 				spaces.append(new RoomView({
 					model: space
 				}).render().$el);
 			});
 			return this;
-		},
-		// create new room in this floor
-		createRoom: function(){
-			console.log(this.collection)
-			var rmPic = this.$("#newRmPic").val();
-			var rmName = this.$("#newRmName").val();
-			var flId = this.collection.url.split("/")[2]
-			console.log(rmPic, rmName, flId);
-			var nwRm = new Room ({ 
-				floor_id: flId, 
-				roomname: rmName, 
-				color_1: "#858685", 
-				color_2: "#858685", 
-				color_3: "#858685",
-				rmPic: rmPic});
-			this.collection.add(nwRm);
-			nwRm.save(null);
-			console.log(rooms)
 		}
 
 
@@ -166,12 +175,13 @@ var FloorsView = Backbone.View.extend({
 					model: level,
 				}).render().$el);
 			});
+			
 
 			return this;
 		}
 	});
 
-$("button#flAdd").click(function(){
+	$("button#flAdd").click(function(){
 	$("#flAddField").toggleClass("hidden")
 	$("button#flAdd").toggleClass("hidden")
 })
