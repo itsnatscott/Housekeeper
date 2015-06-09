@@ -126,9 +126,11 @@ $(document).ready(function(){
 					contentType: "application/json",
 					dataType: "json",
 					success: function(data) {
+
 						$("#"+data.id+"rmCl1").css('background-color', data.color_1);
 						$("#"+data.id+"rmCl2").css('background-color', data.color_2);
 						$("#"+data.id+"rmCl3").css('background-color', data.color_3);
+						$("body").css('background-color', data.color_3);
 					}
 				});
 			}

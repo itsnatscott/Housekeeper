@@ -8,6 +8,7 @@
 button:focus {outline:0;}
 
 body{
+  position:fixed;
   background-color: #575554;
   background-image: url("../images/bkg.jpg");
  background-blend-mode: multiply; 
