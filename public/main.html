@@ -39,8 +39,10 @@
 				<button class="floorButt"> {{ floor.fl_name }} </button><br> <button class= "FlDel">Dl</button>
 				<button class='fldCreate'id="fldCreate{{floor.id}}">Add Room</button></div>
 				<div id="addrmField{{floor.id}}" class="hidden">
-				<button id='rmCreate' class="roomCreate">Add Room</button>
-				<input type='text' id='newRmName{{floor.id}}' placeholder = 'room name'><input type='text' id='newRmPic{{floor.id}}' placeholder = 'picture url'>
+				<button id='rmCreate' class="roomCreate" style="background: #0080FF;">Add Room</button>
+				<div class="room_inputs">
+				<input type='text' id='newRmName{{floor.id}}' placeholder = 'room name' required><input type='text' id='newRmPic{{floor.id}}' placeholder = 'picture url'required>
+			</div>
 				</div>
 			</span>
 

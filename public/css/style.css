@@ -12,6 +12,24 @@ body{
   background-image: url("../images/bkg.jpg");
  background-blend-mode: multiply; 
 }
+.fldCreate{  position: relative;
+  top: -24px;
+  right: -25px;
+  width: 91px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 12px;
+  background: #88AD86;
+  padding: 5px 7px 5px 7px;
+  text-decoration: none;
+  border-left-width: 0px;
+  border-top-width: 0px;
+  border-right-width: 0px;
+  border-bottom-width: 0px;
+}
 
 .floorButt {
   font-family: Arial;
@@ -157,6 +175,26 @@ position: fixed;
 	height: 250px;
 
 }
+.roomCreate{
+  position: relative;
+  top: -24px;
+  right: -25px;
+  width: 91px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 12px;
+  background: #88AD86;
+  padding: 5px 7px 5px 7px;
+  text-decoration: none;
+  border-left-width: 0px;
+  border-top-width: 0px;
+  border-right-width: 0px;
+  border-bottom-width: 0px;
+
+}
 
 .roomDiv{
 	display: inline-block;
@@ -186,6 +224,12 @@ position: fixed;
   top: 0%;
   text-align: -webkit-right;
   right: -8%;
+}
+
+.room_inputs{
+  position: relative;
+  top: -24px;
+  width: 116;
 }
 .roomName{
 	width: 90%;
