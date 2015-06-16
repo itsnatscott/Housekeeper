@@ -43,18 +43,19 @@ $(document).ready(function(){
 			});
 		},
 
-			showFields: function(){
+		showFields: function(){
 			$("#addrmField"+this.model.id).toggleClass("hidden")
 			$("#fldCreate"+this.model.id).toggleClass("hidden")
-			},
+		},
 
-			createRoom: function(){
+		createRoom: function(){
+			var flId = this.model.attributes.id;
 			console.log(this.model.collection)
 			var rmPic = this.$("#newRmPic"+this.model.id).val();
 			var rmName = this.$("#newRmName"+this.model.id).val();
 			console.log(rmPic, rmName, this.model.id);
 			var nwRm = new Room ({ 
-				floor_id: this.model.id, 
+				floor_id: this.model.attributes.id, 
 				roomname: rmName, 
 				color_1: "DDDDDD", 
 				color_2: "A8A8A8", 
@@ -81,7 +82,8 @@ $(document).ready(function(){
 			"click .query" : "searchColor",
 			"click button.rmDel" : "roomDelete",
 			"click button.rmEdit" : "roomEdit",
-			"click button.rmUpdate" : "updateRoom"
+			"click button.rmUpdate" : "updateRoom",
+			"click button.noteDisp" : "showNotes"
 
 		},
 		render: function() {
@@ -90,18 +92,33 @@ $(document).ready(function(){
 			}));
 			return this;
 		},
+
+		showNotes: function(){
+			if (this.$("#notes"+this.model.attributes.id).attr('class') === "notes hidden"){
+				this.$("#notes"+this.model.attributes.id).toggleClass("hidden");
+			}
+			this.$("#notes"+this.model.attributes.id).attr('readonly','readonly');
+		},
+
 		roomEdit: function(){
 			this.$("#rmEditField"+this.model.attributes.id).toggleClass("hiddenEdit");
+			if (this.$("#notes"+this.model.attributes.id).attr('class') === "notes hidden"){
+				this.$("#notes"+this.model.attributes.id).toggleClass("hidden");
+			}
+			this.$("#notes"+this.model.attributes.id).removeAttr('readonly');
 		},
+
 
 		updateRoom: function(){
 			console.log("roomUpdate")
+			var newTodo = this.$("#notes"+this.model.attributes.id).val();
 			var newName = this.$("#roomName"+this.model.attributes.id).val();
 			var newPic = this.$("#roomPic"+this.model.attributes.id).val();
-			console.log(this.model,newPic,newName)
+			console.log(newTodo)
 			this.model.set({
 				roomname: newName,
-				rmPic: newPic
+				rmPic: newPic,
+				to_do: newTodo
 			});
 			this.model.save();
 			this.$("#rmEditField"+this.model.attributes.id).toggleClass("hiddenEdit");
@@ -130,7 +147,8 @@ $(document).ready(function(){
 						$("#"+data.id+"rmCl1").css('background-color', data.color_1);
 						$("#"+data.id+"rmCl2").css('background-color', data.color_2);
 						$("#"+data.id+"rmCl3").css('background-color', data.color_3);
-						$("body").css('background-color', data.color_3);
+						// changes color of background to match search. kind-of distracting
+						// $("body").css('background-color', data.color_3);
 					}
 				});
 			}
@@ -162,11 +180,11 @@ $(document).ready(function(){
 	});
 
 
-var FloorsView = Backbone.View.extend({
-	el: 'div#main',
-	initialize: function() {
-		this.listenTo(this.collection, "sync remove" ,this.render);
-	},
+	var FloorsView = Backbone.View.extend({
+		el: 'div#main',
+		initialize: function() {
+			this.listenTo(this.collection, "sync remove" ,this.render);
+		},
 		//put event listeners under here
 		//put event listeners above here
 		render: function() {
@@ -184,13 +202,13 @@ var FloorsView = Backbone.View.extend({
 	});
 
 	$("button#flAdd").click(function(){
-	$("#flAddField").toggleClass("hidden")
-	$("button#flAdd").toggleClass("hidden")
-})
-var CreateFloorView = Backbone.View.extend({
-	el: '#flAddField',
-	events:{"click button#flCreate" : "createFloor"
-},
+		$("#flAddField").toggleClass("hidden")
+		$("button#flAdd").toggleClass("hidden")
+	})
+	var CreateFloorView = Backbone.View.extend({
+		el: '#flAddField',
+		events:{"click button#flCreate" : "createFloor"
+	},
 	//creates new floor
 	createFloor: function(){
 		var flPic = this.$("#newFlPic").val();
@@ -204,14 +222,14 @@ var CreateFloorView = Backbone.View.extend({
 
 });
 
-floors.fetch({
-	success: function(){
-		new FloorsView({
-			collection: floors
-		});
-	}
-});
-new CreateFloorView({
-	collection: floors
-});
+	floors.fetch({
+		success: function(){
+			new FloorsView({
+				collection: floors
+			});
+		}
+	});
+	new CreateFloorView({
+		collection: floors
+	});
 });

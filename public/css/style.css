@@ -31,7 +31,11 @@ body{
   border-right-width: 0px;
   border-bottom-width: 0px;
 }
-
+.rmUpdate{
+  position: relative;
+  top: 104px;
+  right: -104px;
+}
 .floorButt {
   font-family: Arial;
   color: #ffffff;
@@ -145,6 +149,30 @@ position: fixed;
   position: absolute;
   right: 250px;
   top: 270px;
+}
+.dispnotes{
+  font-size: 13;
+  font-family: sans-serif;
+  font-weight: bold;
+  line-height: 18px;
+  position: relative;
+  width: 270;
+  height: 150;
+  top: -195px;
+  left: 15;
+  background-color: rgba(255,255,255,.4);
+}
+.notes {
+  font-size: 13;
+  font-family: sans-serif;
+  font-weight: bold;
+  line-height: 18px;
+  position: relative;
+  width: 270;
+  height: 125px;
+  top: -171px;
+  left: 15px;
+  background-color: rgba(255,255,255,.4);
 }
 
 #paintstripe{

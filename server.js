@@ -230,10 +230,10 @@ app.post('/housekeepers/floors/:id/rooms', function(req,res){
 });
 
 app.put('/housekeepers/floors/:flId/rooms/:rmId', function(req,res){
-  console.log (req.body,req.params.rmId, req.params)
+  console.log (req.body, req.params)
   var id = req.params.rmId;
 
-  db.run("UPDATE rooms SET roomname = ?, rmPic = ? WHERE id = ?", req.body.roomname, req.body.rmPic,id, function(err){
+  db.run("UPDATE rooms SET roomname = ?, to_do = ?, rmPic = ? WHERE id = ?", req.body.roomname, req.body.to_do, req.body.rmPic, id, function(err){
     if(err){
       throw err;
     }
